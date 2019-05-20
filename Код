@@ -1,0 +1,116 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int main()
+{
+    long long n,m,k;
+    n=24;
+    m=8;
+    k=5;
+    long long z=n;
+    for (int i=n-1;i>n-m;i--)
+    {
+        z=z*i;
+    }
+    for (int i=1;i<m+1;i++)
+    {
+        z=z/i;
+    }
+    vector <vector <int> > A(z, vector <int> (m));
+    for (int i=0;i<m;i++)
+    {
+        A[0][i]=i+1;
+    }
+    for (int i=1;i<z;i++)
+    {
+        for (int j=0;j<m;j++)
+        {
+            A[i][j]=A[i-1][j];
+        }
+        if (A[i][m-1]!=n)
+        {
+            A[i][m-1]++;
+        }
+        else
+        {
+            int ttt=1;
+            int f=2;
+            while(ttt>0)
+            {
+                if (A[i][m-f]+f<=n)
+                {
+                    A[i][m-f]++;
+                    for (int h=m-f+1;h<m;h++)
+                    {
+                        A[i][h]=A[i][h-1]+1;
+                    }
+                    ttt=-1;
+                }
+                else
+                {
+                    f++;
+                }
+                if (f>n)
+                {
+                    ttt=-1;
+                }
+            }
+        }
+    }
+    n=z;
+    k=k-1;
+    int B[760][m];
+    for (int i=0;i<m;i++)
+    {
+        B[0][i]=A[0][i];
+    }
+    for (int i=1;i<760;i++)
+    {
+        for (int j=0;j<m;j++)
+        {
+            B[i][j]=-1;
+        }
+    }
+    int gg=1;
+    for (int i=1;i<n;i++)
+    {
+        int ki=-1;
+        for (int j=0;j<gg;j++)
+        {
+            int z=0;
+            for (int p=0;p<m;p++)
+            {
+                for (int q=0;q<m;q++)
+                {
+                    if (A[i][p]==B[j][q])
+                    {
+                        z++;
+                    }
+                }
+            }
+            if (z>k)
+            {
+                ki=1;;
+            }
+        }
+        if (ki==-1)
+        {
+            for (int p=0;p<m;p++)
+            {
+                    B[gg][p]=A[i][p];
+            }
+            gg++;
+        }
+    }
+    for (int i=0;i<759;i++)
+    {
+        for (int j=0;j<m;j++)
+        {
+            cout<<B[i][j]<<" ";
+        }
+        cout<<endl;
+    }
+    return 0;
+}
